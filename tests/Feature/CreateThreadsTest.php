@@ -12,17 +12,33 @@ class CreateThreadsTest extends TestCase
 
     use DatabaseMigrations;
 
+    protected function setUp()
+    {
+        parent::setUp();
+
+//        $this->withoutExceptionHandling();
+    }
+
     /**
      * @test
      */
 
     public function guest_may_not_create_thread()
     {
-        $this->expectException('Illuminate\Auth\AuthenticationException');
+        $this->withoutExceptionHandling()->expectException('Illuminate\Auth\AuthenticationException');
 
         $thread = make('App\Thread');
 
         $this->post('/threads', $thread->toArray());
+    }
+
+    /**
+     * @test
+     */
+
+    public function guest_may_not_see_thread_creation_form()
+    {
+        $this->withExceptionHandling()->get('threads/create')->assertRedirect('login');
     }
 
     /**
