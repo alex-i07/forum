@@ -5,7 +5,10 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header">{{$thread->title}}</div>
+                    <div class="card-header">
+                        <a href="#">{{$thread->creator->name}}</a> posted:
+                        {{$thread->title}}
+                    </div>
 
                     <div class="card-body">
                         {{$thread->body}}}
@@ -17,15 +20,27 @@
         <div class="row justify-content-center">
             <div class="col-md-8 offset-md-1">
                 @foreach($thread->replies as $reply)
-                    <div class="card-header"><a href="#"></a> {{$reply->owner->name}} said {{$thread->created_at->diffForHumans()}}...</div>
-                    <div class="card">
-                        <div class="card-body">
-                            {{$reply->body}}}
-                        </div>
-                    </div>
+                    @include('threads.reply')
                 @endforeach
             </div>
         </div>
 
+        @if (auth()->check())
+        <div class="row justify-content-center">
+            <div class="col-md-8 offset-md-1">
+                <form method="post" action="{{$thread->path() . '/replies'}}">
+                    {{csrf_field()}}
+                    <div class="form-group">
+                        <label for="body">Body:</label>
+                        <textarea id="body" name="body" rows="5" class="form-control" placeholder="Have something to say?"></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-outline-primary">Post a message</button>
+                </form>
+            </div>
+        </div>
+        @else
+            <p class="text-center">Please, <a href="{{route('login')}}"> sign in</a> to participate in this discussion</p>
+        @endif
     </div>
 @endsection

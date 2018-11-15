@@ -46,6 +46,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+
+        //-------------------4th episode of Let's build a forum with TDD
+        if (app()->environment() === 'testing') throw $exception;
+        //----------------------------------------------
         return parent::render($request, $exception);
     }
 }

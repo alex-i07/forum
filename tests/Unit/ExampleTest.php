@@ -15,7 +15,5 @@ class ExampleTest extends TestCase
     public function testBasicTest()
     {
         $this->assertTrue(true);
-
-        var_dump('Тру-ля-ля из unit test');
     }
 }
