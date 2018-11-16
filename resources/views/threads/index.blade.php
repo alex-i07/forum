@@ -17,7 +17,7 @@
                         @foreach($threads as $thread)
                             <article>
 
-                                <a href="/threads/{{$thread->id}}">{{$thread->title}}</a>
+                                <a href="/threads/{{$thread->channel->slug}}/{{$thread->id}}">{{$thread->title}}</a>
                                 <div class="body">{{$thread->body}}</div>
 
                                 <hr>

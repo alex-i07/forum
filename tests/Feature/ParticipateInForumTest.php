@@ -16,13 +16,14 @@ class ParticipateInForumTest extends TestCase
      */
     public function an_unauthenticated_user_may_not_add_replies()
     {
-        $this->withoutExceptionHandling()->expectException('Illuminate\Auth\AuthenticationException');
+        $this->withExceptionHandling();
 
         $thread = factory('App\Thread')->create();
 
         $reply = factory('App\Reply')->create();
 
-        $this->post($thread->path() . '/replies', $reply->toArray());
+        $this->post($thread->path() . '/replies', $reply->toArray())
+            ->assertRedirect('/login');
     }
 
     /**
@@ -47,5 +48,23 @@ class ParticipateInForumTest extends TestCase
         //Replies
 
         $this->get($thread->path())->assertSee($reply->body);
+    }
+
+    /**
+     * @test
+     */
+
+    public function a_reply_requires_a_body()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread');
+
+        //When a user adds a reply to the thread
+
+        $reply = make('App\Reply', ['body' => null]);
+
+        $this->post($thread->path() . '/replies', $reply->toArray())
+            ->assertSessionHasErrors('body');
     }
 }

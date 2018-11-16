@@ -12,9 +12,16 @@ class RepliesController extends Controller
         $this->middleware('auth');
     }
 
-    public function store(Thread $thread)
+    /**
+     * @param $channel_id
+     * @param Thread $thread
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function store($channel_id, Thread $thread)
     {
 //        Auth::attempt(['email' => 'alena@renner.org', 'password' => 'secret']);
+
+        $this->validate(request(), ['body' => 'required']);
 
         $thread->addReply([
             'body' => request('body'),
