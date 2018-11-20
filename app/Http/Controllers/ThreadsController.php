@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use App\Channel;
 use App\Thread;
 use Illuminate\Http\Request;
@@ -26,15 +27,23 @@ class ThreadsController extends Controller
         //нужно перезаписать метод getRouteKeyName() в модели Channel
         if($channel->exists){
 
-            $threads = $channel->threads()->latest()->get();
+            $threads = $channel->threads()->latest();
 
 //            $channelId = Channel::where('slug', $channel)->first()->id;
 //
 //            $threads = Thread::where('channel_id', $channelId)->latest()->get();
         }
         else{
-            $threads = Thread::latest()->get();
+            $threads = Thread::latest();
         }
+
+        if ($username = request('by')){
+            $user = User::where('name', $username)->firstOrFail();
+
+            $threads->where('user_id', $user->id);
+        }
+
+        $threads = $threads->get();
 
 //        $channels = Channel::get();  //приходится то же самое писать в других методах, иначе undefined variable
 

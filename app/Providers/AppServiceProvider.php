@@ -14,13 +14,13 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        \View::share('channels', Channel::all());
+//        \View::share('channels', Channel::all());  //this runs before DatabaseMigrations trait in tests
 
 //        or
 
-//        \View::composer(['layouts.app', 'threads.create'], function($view){
-//            $view->with('channels', \App\Channel::all());
-//        });
+        \View::composer(['layouts.app', 'threads.create'], function($view){
+            $view->with('channels', \App\Channel::all());
+        });
     }
 
     /**
