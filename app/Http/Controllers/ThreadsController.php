@@ -36,9 +36,9 @@ class ThreadsController extends Controller
             $threads = Thread::latest()->get();
         }
 
-        $channels = Channel::get();
+//        $channels = Channel::get();  //приходится то же самое писать в других методах, иначе undefined variable
 
-        return view ('threads.index', compact('threads', 'channels'));
+        return view ('threads.index', compact('threads'));
     }
 
     /**
