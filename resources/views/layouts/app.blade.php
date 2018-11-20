@@ -42,7 +42,7 @@
                                aria-haspopup="true" aria-expanded="false">Channels</a>
                             <div class="dropdown-menu">
 
-                                @foreach(App\Channel::get() as $channel)   {{--it is temporary!--}}
+                                @foreach($channels as $channel)   {{--it is temporary!--}}
                                 <a class="dropdown-item" href="/threads/{{$channel->slug}}">{{$channel->name}}</a>
                                 @endforeach
 
