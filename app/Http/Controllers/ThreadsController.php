@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Channel;
 use App\Thread;
 use Illuminate\Http\Request;
 
@@ -18,11 +19,26 @@ class ThreadsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Channel $channel)
     {
-        $threads = Thread::latest()->get();
+        //в url передаётся channel slug not id; а Laravel попытается использовать route model binding
+        //который по умолчанию ищет модель в базе по id
+        //нужно перезаписать метод getRouteKeyName() в модели Channel
+        if($channel->exists){
 
-        return view ('threads.index', compact('threads'));
+            $threads = $channel->threads()->latest()->get();
+
+//            $channelId = Channel::where('slug', $channel)->first()->id;
+//
+//            $threads = Thread::where('channel_id', $channelId)->latest()->get();
+        }
+        else{
+            $threads = Thread::latest()->get();
+        }
+
+        $channels = Channel::get();
+
+        return view ('threads.index', compact('threads', 'channels'));
     }
 
     /**
