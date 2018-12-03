@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
+
     protected $fillable = ['user_id', 'channel_id', 'title', 'body'];
 
     /**
@@ -46,4 +47,10 @@ class Thread extends Model
     {
         $this->replies()->create($reply);
     }
+
+    public function scopeFilter($query, $filters)
+    {
+        return $filters->apply($query);
+    }
+
 }
