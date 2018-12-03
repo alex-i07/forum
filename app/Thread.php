@@ -2,12 +2,22 @@
 
 namespace App;
 
+use function foo\func;
 use Illuminate\Database\Eloquent\Model;
 
 class Thread extends Model
 {
 
     protected $fillable = ['user_id', 'channel_id', 'title', 'body'];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::addGlobalScope('replyCount', function($builder){
+            $builder->withCount('replies');
+        });
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
