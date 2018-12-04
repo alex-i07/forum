@@ -17,6 +17,10 @@ class Thread extends Model
         static::addGlobalScope('replyCount', function($builder){
             $builder->withCount('replies');
         });
+
+        static::addGlobalScope('creator', function($builder){
+            $builder->with('creator');
+        });
     }
 
     /**
@@ -25,6 +29,8 @@ class Thread extends Model
     public function replies()
     {
         return $this->hasMany(Reply::class);
+//            ->withCount('favorites')
+//            ->with('owner');
     }
 
     /**

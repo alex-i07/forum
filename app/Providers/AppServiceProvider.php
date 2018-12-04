@@ -19,7 +19,10 @@ class AppServiceProvider extends ServiceProvider
 //        or
 
         \View::composer(['layouts.app', 'threads.create'], function($view){
-            $view->with('channels', \App\Channel::all());
+            $channels = \Cache::rememberForever('channels', function (){
+                return Channel::all();
+            });
+            $view->with('channels', $channels);
         });
     }
 
