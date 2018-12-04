@@ -18,7 +18,10 @@
                     @include('threads.reply')
                 @endforeach
 
-                {{$replies->links()}}
+                <div class="m-2">
+                    {{$replies->links()}}
+                </div>
+
 
                 @if (auth()->check())
                     <div class="row">

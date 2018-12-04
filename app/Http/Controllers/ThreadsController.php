@@ -27,6 +27,10 @@ class ThreadsController extends Controller
 
         $threads = $this->getThreads($channel, $filters);
 
+        if (request()->wantsJson()){
+            return $threads;
+        }
+
         //в url передаётся channel slug not id; а Laravel попытается использовать route model binding
         //который по умолчанию ищет модель в базе по id
         //нужно перезаписать метод getRouteKeyName() в модели Channel
@@ -153,6 +157,8 @@ class ThreadsController extends Controller
         if ($channel->exists) {
             $threads->where('channel_id', $channel->id);
         }
+
+//        dd($threads->toSql());
 
         $threads = $threads->get();
 
