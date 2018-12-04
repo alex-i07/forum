@@ -22,7 +22,9 @@ class FavoritesController extends Controller
 //            'favorited_type' => get_class($reply)
 //        ]);
 
-       return $reply->favorite();
+       $reply->favorite();
+
+        return back();
 //        $reply->favorites()->create(['user_id' => auth()->user()->id]);
     }
 }
