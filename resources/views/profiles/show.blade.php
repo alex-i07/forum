@@ -3,7 +3,8 @@
 @section('content')
     <div class="container">
         <h3>
-            {{$profileUser->name}} <small>since {{$profileUser->created_at->diffForHumans()}}</small>
+            {{$profileUser->name}}
+            <small>since {{$profileUser->created_at->diffForHumans()}}</small>
         </h3>
         <hr>
 

@@ -1,8 +1,7 @@
-
 <div class="card-header">
     <div class="level">
         <h5 class="flex">
-            <a href="/profiles/{{$reply->owner->name}}"> {{$reply->owner->name}}</a>&nbsp;
+            <a href="{{route('profile', $reply->owner->name)}}"> {{$reply->owner->name}}</a>&nbsp;
             said {{$thread->created_at->diffForHumans()}}...
         </h5>
 
