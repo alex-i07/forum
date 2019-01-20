@@ -14,7 +14,7 @@
                             </div>
                         @endif
 
-                        @foreach($threads as $thread)
+                        @forelse($threads as $thread)
                             <article>
                                 <div class="level">
                                     <h4 class="flex">
@@ -31,7 +31,9 @@
 
                                 <hr>
                             </article>
-                        @endforeach
+                        @empty
+                            <p>There are no articles yet.</p>
+                        @endforelse
                     </div>
                 </div>
             </div>

@@ -142,7 +142,15 @@ class ThreadsController extends Controller
      */
     public function destroy(Channel $channel, Thread $thread)
     {
+        $this->authorize('update', $thread);
+
 //        $thread->replies()->delete();  //same is done in model deleting event
+
+//        if($thread->user_id != auth()->user()->id){
+//            abort(403, 'You don\'t have permisstion to do that');
+//
+//            return redirect('/login');
+//        }
 
         $thread->delete();
 

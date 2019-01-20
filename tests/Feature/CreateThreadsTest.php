@@ -91,26 +91,35 @@ class CreateThreadsTest extends TestCase
             ->assertSessionHasErrors('channel_id');
     }
 
-    protected function publishThread($overrides = [])
+    /**
+     * @test
+     */
+    public function unauthorized_users_may_not_delete_threads()
     {
+        $thread = create('App\Thread');
+
+//        $response = $this->delete($thread->path());
+//
+//        $response->assertRedirect('/login');
+
+        $this->delete($thread->path())->assertRedirect('/login');
+
         $this->signIn();
 
-        $thread = make('App\Thread', $overrides);
-
-        return $this->post('/threads', $thread->toArray());
+        $this->delete($thread->path())->assertStatus(403);
     }
 
     /**
      * @test
      */
 
-    public function a_thread_can_be_deleted()
+    public function authorize_users_can_delete_threads()
     {
         $this->withoutExceptionHandling();
 
         $this->signIn();
 
-        $thread = create('App\Thread');
+        $thread = create('App\Thread', ['user_id' => auth()->user()->id]);
 
         $reply = create('App\Reply', ['thread_id' => $thread->id]);
 
@@ -123,15 +132,15 @@ class CreateThreadsTest extends TestCase
     }
 
     /**
-     * @test
+     * @param array $overrides
+     * @return \Illuminate\Foundation\Testing\TestResponse
      */
-
-    public function a_guest_cannot_delete_threads()
+    protected function publishThread($overrides = [])
     {
-        $thread = create('App\Thread');
+        $this->signIn();
 
-        $response = $this->delete($thread->path());
+        $thread = make('App\Thread', $overrides);
 
-        $response->assertRedirect('/login');
+        return $this->post('/threads', $thread->toArray());
     }
 }
