@@ -11,6 +11,7 @@ class ChannelTest extends TestCase
 {
 
     use DatabaseMigrations;
+
     /**
      * @test
      *

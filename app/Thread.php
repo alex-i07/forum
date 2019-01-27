@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Thread extends Model
 {
 
+    use RecordsActivityTrait;
+
     protected $fillable = ['user_id', 'channel_id', 'title', 'body'];
 
     protected static function boot()
@@ -22,7 +24,7 @@ class Thread extends Model
             $builder->with('creator');
         });
 
-        static::deleting(function($thread){  //откуда берётся $thread
+        static::deleting(function ($thread) {  //откуда берётся $thread
             $thread->replies()->delete();
         });
     }

@@ -8,6 +8,7 @@ class Reply extends Model
 {
 
     use Favorable;
+    use RecordsActivityTrait;
 
     protected $fillable = ['user_id', 'thread_id', 'body'];
 
