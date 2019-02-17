@@ -8,27 +8,38 @@
         </h3>
         <hr>
 
-        @foreach($threads as $thread)
-            <div class="card">
-                <div class="card-header">
-                    <div class="level">
-                        <span class="flex">
-                            <a href="#">{{$thread->title}}</a>
-                        </span>
-                        <span>
-                            {{$thread->created_at->diffForHumans()}}
-                        </span>
-                    </div>
+        @foreach($activities as $date => $activity)
+            @foreach($activity as $record)
+                {{--<div class="card">--}}
+                {{--<div class="card-header">--}}
+                {{--<div class="level">--}}
+                {{--<span class="flex">--}}
 
-                </div>
+            <h3 class="pb-2 mt-4 mb-2 border-bottom">{{$date}}</h3>
 
-                <div class="card-body">
-                    {{$thread->body}}
-                </div>
-            </div>
+                @include ("profiles.activities.{$record->type}", ['activity' => $record])
+
+            @endforeach
+
+
+            {{--<a href="#">--}}
+            {{--{{$thread->title}}--}}
+            {{--</a>--}}
+            {{--</span>--}}
+            {{--<span>--}}
+            {{--                            {{$thread->created_at->diffForHumans()}}--}}
+            {{--</span>--}}
+            {{--</div>--}}
+
+            {{--</div>--}}
+
+            {{--<div class="card-body">--}}
+            {{--                    {{$thread->body}}--}}
+            {{--</div>--}}
+            {{--</div>--}}
         @endforeach
 
-        {{$threads->links()}}
+        {{--        {{$threads->links()}}--}}
 
     </div>
 @endsection
