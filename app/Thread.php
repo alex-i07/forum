@@ -24,8 +24,11 @@ class Thread extends Model
             $builder->with('creator');
         });
 
-        static::deleting(function ($thread) {  //откуда берётся $thread
-            $thread->replies()->delete();
+        static::deleting(function ($thread) {  //откуда берётся $thread?
+            $thread->replies->each->delete(); //high order messaging!!!
+//            $thread->replies->each(function ($reply){
+//                $reply->delete();
+//            });
         });
     }
 

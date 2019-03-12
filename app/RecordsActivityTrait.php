@@ -16,6 +16,10 @@ trait RecordsActivityTrait
             });
         }
 
+        static::deleting(function ($model) {
+            $model->activity()->delete();
+        });
+
 //        static::created(function ($thread) {
 //            $thread->recordActivity('created');
 //        });
@@ -30,7 +34,7 @@ trait RecordsActivityTrait
     {
         $this->activity()->create([
             'user_id' => auth()->user()->id,
-            'type'    => $this->getActivityType('created')
+            'type'    => $this->getActivityType($event)
         ]);
 
 //        Activity::create([

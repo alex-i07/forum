@@ -33,11 +33,13 @@ class ProfilesTest extends TestCase
 
     public function profile_displays_all_thread_created_by_associated_user()
     {
-        $user = create('App\User');
+        $this->signIn();
 
-        $thread = create('App\Thread', ['user_id' => $user->id]);
+//        $user = create('App\User');
 
-        $this->get("/profiles/{$user->name}")
+        $thread = create('App\Thread', ['user_id' => auth()->user()->id]);
+
+        $this->get("/profiles/" . auth()->user()->name)
             ->assertSee($thread->title)
             ->assertSee($thread->body);
     }
