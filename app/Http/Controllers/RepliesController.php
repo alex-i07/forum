@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Reply;
 use App\Thread;
 use Illuminate\Http\Request;
 
@@ -30,5 +31,17 @@ class RepliesController extends Controller
 
         return redirect()->back();
 //        return redirect($thread->path());
+    }
+
+    public function destroy(Reply $reply)
+    {
+//        dd($reply->user_id, auth()->user()->id);
+//        if ($reply->user_id != auth()->user()->id)  return response([], 403);
+
+        $this->authorize('update', $reply);
+
+        $reply->delete();
+
+        return back();
     }
 }
