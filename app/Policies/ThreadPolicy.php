@@ -10,6 +10,9 @@ class ThreadPolicy
 {
     use HandlesAuthorization;
 
+    //Alyssa Loughran is an admin, if return true from before
+    //method you are instantly authorized.
+
 //    public function before()
 //    {
 //        return auth()->user->name === 'Alyssa Loughran';

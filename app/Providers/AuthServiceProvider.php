@@ -26,6 +26,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
+        //Alyssa Loughran is an admin, can delete any thread or post
+        //this method will return true for all policies.
         Gate::before(function ($user){
             if($user->name === 'Alyssa Loughran') return true;
         });

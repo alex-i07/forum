@@ -19,7 +19,6 @@ class ReplyPolicy
      */
     public function update(User $user, Reply $reply)
     {
-        return auth()->user()->id == $reply->user_id;
-//        return $reply->user_id == $user->id;
+        return $reply->user_id == $user->id;
     }
 }
