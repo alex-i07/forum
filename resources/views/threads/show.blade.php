@@ -44,7 +44,7 @@
                                               placeholder="Have something to say?"></textarea>
                                 </div>
 
-                                <button type="submit" class="btn btn-outline-primary">Post a message</button>
+                                <button type="submit" class="btn btn-outline-primary">Post a reply</button>
                             </form>
                         </div>
                     </div>
