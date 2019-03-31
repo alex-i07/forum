@@ -19,11 +19,19 @@ window.Vue = require('vue');
 
 Vue.component('flash-component', require('./components/FlashComponent.vue'));
 
+Vue.component('reply-component', require('./components/ReplyComponent.vue'));
+
 // const files = require.context('./', true, /\.vue$/i)
 
 // files.keys().map(key => {
 //     return Vue.component(_.last(key.split('/')).split('.')[0], files(key))
 // })
+
+window.events = new Vue();
+
+window.flash = function(message){
+    window.events.$emit('flash', message);
+};
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

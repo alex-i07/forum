@@ -33,6 +33,15 @@ class RepliesController extends Controller
 //        return redirect($thread->path());
     }
 
+    public function update(Reply $reply)
+    {
+        $this->authorize('update', $reply);
+
+        $reply->update(['body' => request('body')]);
+
+        return response ([], 201);
+    }
+
     public function destroy(Reply $reply)
     {
 //        dd($reply->user_id, auth()->user()->id);

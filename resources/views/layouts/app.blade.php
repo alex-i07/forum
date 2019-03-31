@@ -34,18 +34,26 @@
             flex: 1;
         }
 
+        .mr-1 {
+            margin-right: 1em;
+        }
+
+        [v-cloak] {
+            display: none;
+        }
+
     </style>
 
 </head>
 <body>
 <div id="app">
-   @include('layouts.nav')
+    @include('layouts.nav')
 
     <main class="py-4">
         @yield('content')
     </main>
 
-    <flash message="Temporary flash message"></flash>
+    <flash-component message=""></flash-component>
 
 </div>
 </body>
