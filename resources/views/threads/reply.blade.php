@@ -8,12 +8,14 @@
                 </h5>
 
                 @if(auth()->check())
-                    <form method="post" action="/replies/{{$reply->id}}/favorites">
-                        {{csrf_field()}}
-                        <button type="submit" class="btn btn-outline-success"{{$reply->isFavorited() ? 'disabled': ''}}>
-                            {{$reply->getFavoritesCountAttributes()}} {{str_plural('favorite', $reply->getFavoritesCountAttributes())}}
-                        </button>
-                    </form>
+
+                    <favorite-component :reply = "{{$reply}}"></favorite-component>
+                    {{--<form method="post" action="/replies/{{$reply->id}}/favorites">--}}
+                        {{--{{csrf_field()}}--}}
+                        {{--<button type="submit" class="btn btn-outline-success"{{$reply->isFavorited() ? 'disabled': ''}}>--}}
+                            {{--{{$reply->getFavoritesCountAttributes()}} {{str_plural('favorite', $reply->getFavoritesCountAttributes())}}--}}
+                        {{--</button>--}}
+                    {{--</form>--}}
                 @endif
 
             </div>

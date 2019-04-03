@@ -21,6 +21,8 @@ Vue.component('flash-component', require('./components/FlashComponent.vue'));
 
 Vue.component('reply-component', require('./components/ReplyComponent.vue'));
 
+// Vue.component('favorite-component', require('./components/FavoriteComponent.vue'));
+
 // const files = require.context('./', true, /\.vue$/i)
 
 // files.keys().map(key => {
