@@ -17,7 +17,14 @@ trait RecordsActivityTrait
         }
 
         static::deleting(function ($model) {
-            $model->activity()->delete();
+            //Call to undefined method App\Favorite::favorites()
+//            dd('DELETING EVENT', $model->activity()->get()->each->favorites()->get()->each->delete());
+//            $model->activity()->get()->each->delete();
+            $model->activity->each->delete();
+//            $model->activity->each(function($value){
+////                $value->favorites()->get()->each->delete();
+//                $value->delete();
+//            });
         });
 
 //        static::created(function ($thread) {
