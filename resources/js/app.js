@@ -19,7 +19,11 @@ window.Vue = require('vue');
 
 Vue.component('flash-component', require('./components/FlashComponent.vue'));
 
-Vue.component('reply-component', require('./components/ReplyComponent.vue'));
+Vue.component('thread-view-component', require('./components/ThreadViewComponent.vue'));
+
+// Vue.component('replies-component', require('./components/RepliesComponent.vue'));
+
+// Vue.component('reply-component', require('./components/ReplyComponent.vue'));
 
 // Vue.component('favorite-component', require('./components/FavoriteComponent.vue'));
 
@@ -28,6 +32,10 @@ Vue.component('reply-component', require('./components/ReplyComponent.vue'));
 // files.keys().map(key => {
 //     return Vue.component(_.last(key.split('/')).split('.')[0], files(key))
 // })
+
+Vue.prototype.authorize = function (handler) {
+    return handler(window.user);
+};
 
 window.events = new Vue();
 

@@ -44,6 +44,11 @@
 
     </style>
 
+    <script>
+        window.signedIn = {{auth()->check()}};
+        window.user_id = {{auth()->user() ? auth()->user()->id : 0}};
+    </script>
+
 </head>
 <body>
 <div id="app">
