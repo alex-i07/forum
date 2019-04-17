@@ -1,7 +1,7 @@
 <template>
 
     <div>
-        <div v-for="(reply, index) in replies">
+        <div v-for="(reply, index) in replies" :key="reply.id">
             <reply-component :reply="reply" @ReplyHasBeenDeleted="remove(index)"></reply-component>
         </div>
 

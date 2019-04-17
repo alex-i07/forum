@@ -50235,6 +50235,7 @@ var render = function() {
       _vm._l(_vm.replies, function(reply, index) {
         return _c(
           "div",
+          { key: reply.id },
           [
             _c("reply-component", {
               attrs: { reply: reply },
