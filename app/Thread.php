@@ -68,9 +68,13 @@ class Thread extends Model
 //        return '/threads/' . $this->channel->slug . '/'. $this->id;
     }
 
+    /**
+     * @param $reply
+     * @return Reply
+     */
     public function addReply($reply)
     {
-        $this->replies()->create($reply);
+        return $this->replies()->create($reply);
     }
 
     public function scopeFilter($query, $filters)

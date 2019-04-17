@@ -4,6 +4,8 @@
         <div v-for="(reply, index) in replies">
             <reply-component :reply="reply" @ReplyHasBeenDeleted="remove(index)"></reply-component>
         </div>
+
+        <create-reply-component @reply-was-created="addReply" :endpoint="endpoint"></create-reply-component>
     </div>
 
 </template>
@@ -12,14 +14,17 @@
 
     import ReplyComponent from './ReplyComponent.vue'
 
+    import CreateReplyComponent from './CreateReplyComponent.vue'
+
     export default{
         props: ['data'],
 
-        components: {ReplyComponent},
+        components: {ReplyComponent, CreateReplyComponent},
 
         data(){
             return {
-                replies: this.data
+                replies: this.data,
+                endpoint: window.location.pathname + '/replies'
             }
         },
 
@@ -30,6 +35,11 @@
                 this.$emit('removed');
 
                 flash('Your reply has been successfully deleted!');
+            },
+
+            addReply(reply){
+                this.replies.push(reply);
+                this.$emit('added');
             }
         }
     }

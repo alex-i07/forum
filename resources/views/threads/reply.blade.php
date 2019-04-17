@@ -10,12 +10,7 @@
                 @if(auth()->check())
 
                     <favorite-component :reply = "{{$reply}}"></favorite-component>
-                    {{--<form method="post" action="/replies/{{$reply->id}}/favorites">--}}
-                        {{--{{csrf_field()}}--}}
-                        {{--<button type="submit" class="btn btn-outline-success"{{$reply->isFavorited() ? 'disabled': ''}}>--}}
-                            {{--{{$reply->getFavoritesCountAttributes()}} {{str_plural('favorite', $reply->getFavoritesCountAttributes())}}--}}
-                        {{--</button>--}}
-                    {{--</form>--}}
+
                 @endif
 
             </div>
@@ -31,7 +26,6 @@
                     </div>
                 </div>
                 <div v-else v-text="body">
-{{--                    {{$reply->body}}--}}
                 </div>
             </div>
 
@@ -40,11 +34,7 @@
                         <button type="button" @click="editing=true" class="btn btn-warning btn-sm">Edit</button>
 
                         <button type="button" @click="destroy" class="btn btn-danger btn-sm">Delete</button>
-                    {{--<form method="POST" action="/replies/{{$reply->id}}">--}}
-                        {{--{{csrf_field()}}--}}
-                        {{--@method('DELETE')--}}
-                        {{--<button type="submit" class="btn btn-danger btn-sm"></button>--}}
-                    {{--</form>--}}
+
                 </div>
             @endcan
         </div>

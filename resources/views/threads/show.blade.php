@@ -26,36 +26,12 @@
                         </div>
                     </div>
 
-                    <replies-component :data="{{$thread->replies}}" @removed="repliesCount--"></replies-component>
-
-                    {{--@foreach($replies as $reply)--}}
-                    {{--@include('threads.reply')--}}
-                    {{--@endforeach--}}
+                    <replies-component :data="{{$thread->replies}}" @added="repliesCount++" @removed="repliesCount--"></replies-component>
 
                     {{--<div class="m-2">--}}
                     {{--{{$replies->links()}}--}}
                     {{--</div>--}}
 
-
-                    @if (auth()->check())
-                        <div class="row">
-                            <div class="col-md-8">
-                                <form method="post" action="{{$thread->path() . '/replies'}}">
-                                    {{csrf_field()}}
-                                    <div class="form-group">
-                                        <label for="body">Body:</label>
-                                        <textarea id="body" name="body" rows="5" class="form-control"
-                                                  placeholder="Have something to say?"></textarea>
-                                    </div>
-
-                                    <button type="submit" class="btn btn-outline-primary">Post a reply</button>
-                                </form>
-                            </div>
-                        </div>
-                    @else
-                        <p class="text-center">Please, <a href="{{route('login')}}"> sign in</a> to participate in this
-                            discussion</p>
-                    @endif
                 </div>
 
                 <div class="col-md-4">
