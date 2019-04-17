@@ -5,12 +5,26 @@ namespace App\Http\Controllers;
 use App\Reply;
 use App\Thread;
 use Illuminate\Http\Request;
+use App\Filters\ThreadFilters;
 
 class RepliesController extends Controller
 {
+
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth', ['except' => 'index']);
+    }
+
+    /**
+     * Return all replies for a given thread in a json format.
+     *
+     * @param $channelId
+     * @param Thread $thread
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    public function index($channelId, Thread $thread)
+    {
+        return $thread->replies()->paginate(1);
     }
 
     /**
@@ -25,11 +39,11 @@ class RepliesController extends Controller
         $this->validate(request(), ['body' => 'required']);
 
         $reply = $thread->addReply([
-            'body' => request('body'),
+            'body'    => request('body'),
             'user_id' => auth()->user()->id
         ]);
 
-        if (request()->expectsJson()){
+        if (request()->expectsJson()) {
             return $reply->load('owner');
         }
 
@@ -43,7 +57,7 @@ class RepliesController extends Controller
 
         $reply->update(['body' => request('body')]);
 
-        return response ([], 201);
+        return response([], 201);
     }
 
     public function destroy(Reply $reply)
@@ -55,8 +69,8 @@ class RepliesController extends Controller
 
         $reply->delete();
 
-        if (request()->expectsJson()){
-            return response ([], 204);
+        if (request()->expectsJson()) {
+            return response([], 204);
         }
 
         return back();

@@ -4,7 +4,7 @@
             <div class="level">
                 <h5 class="flex">
                     <a :href="'profile' + reply.owner.name" v-text="reply.owner.name"></a>&nbsp;
-                    said {{reply.created_at}}...
+                    said <span v-text="ago"></span>...
                 </h5>
 
                 <favorite-component v-if="signedIn" :reply = "reply"></favorite-component>
@@ -38,6 +38,7 @@
 <script>
 
     import FavoriteComponent from './FavoriteComponent.vue';
+    import moment from 'moment';
 
     export default{
         props: ['reply'],
@@ -57,6 +58,9 @@
             },
             canUpdate() {
                 return this.authorize(user => this.reply.user_id == window.user_id);
+            },
+            ago(){
+                return moment(this.reply.created_at).fromNow();
             }
         },
         methods: {

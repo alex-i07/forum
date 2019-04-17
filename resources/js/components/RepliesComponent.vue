@@ -12,34 +12,42 @@
 
 <script>
 
-    import ReplyComponent from './ReplyComponent.vue'
+    import ReplyComponent from './ReplyComponent.vue';
 
-    import CreateReplyComponent from './CreateReplyComponent.vue'
+    import CreateReplyComponent from './CreateReplyComponent.vue';
+
+    import collection from '../mixins/repliesCollection';
 
     export default{
-        props: ['data'],
 
         components: {ReplyComponent, CreateReplyComponent},
 
+        mixins: [collection],
+
         data(){
             return {
-                replies: this.data,
+                dataSet: false,
                 endpoint: window.location.pathname + '/replies'
             }
         },
+        created(){
+            this.fetch();
+        },
 
         methods: {
-            remove(index){
-                this.replies.splice(index, 1);
 
-                this.$emit('removed');
-
-                flash('Your reply has been successfully deleted!');
+            fetch(){
+                axios.get(this.url())
+                    .then(this.refresh);
             },
 
-            addReply(reply){
-                this.replies.push(reply);
-                this.$emit('added');
+            url(){
+                return `${window.location.pathname}/replies`;
+            },
+
+            refresh({data}){
+                this.dataSet = data;
+                this.replies = data.data;
             }
         }
     }
