@@ -21,6 +21,8 @@ Vue.component('flash-component', require('./components/FlashComponent.vue'));
 
 Vue.component('thread-view-component', require('./components/ThreadViewComponent.vue'));
 
+Vue.component('paginator-component', require('./components/PaginatorComponent.vue'));
+
 // Vue.component('replies-component', require('./components/RepliesComponent.vue'));
 
 // Vue.component('reply-component', require('./components/ReplyComponent.vue'));

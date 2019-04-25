@@ -1,11 +1,13 @@
 <template>
 
     <div>
-        <div v-for="(reply, index) in replies" :key="reply.id">
+        <div v-for="(reply, index) in items" :key="reply.id">
             <reply-component :reply="reply" @ReplyHasBeenDeleted="remove(index)"></reply-component>
         </div>
 
-        <create-reply-component @reply-was-created="addReply" :endpoint="endpoint"></create-reply-component>
+        <paginator-component :dataSet="dataSet" @page-changed="fetch"></paginator-component>
+
+        <create-reply-component @reply-was-created="addReply"></create-reply-component>
     </div>
 
 </template>
@@ -16,7 +18,7 @@
 
     import CreateReplyComponent from './CreateReplyComponent.vue';
 
-    import collection from '../mixins/repliesCollection';
+    import collection from '../mixins/collection';
 
     export default{
 
@@ -26,8 +28,7 @@
 
         data(){
             return {
-                dataSet: false,
-                endpoint: window.location.pathname + '/replies'
+                dataSet: false
             }
         },
         created(){
@@ -36,18 +37,25 @@
 
         methods: {
 
-            fetch(){
-                axios.get(this.url())
+            fetch(page){
+                axios.get(this.url(page))
                     .then(this.refresh);
             },
 
-            url(){
-                return `${window.location.pathname}/replies`;
+            url(page){
+
+                if (!page){
+                    let query = window.location.search.match(/page=(\d+)/);
+
+                    page = query ? query[1] : 1;
+                }
+
+                return `${window.location.pathname}/replies?page=${page}`;
             },
 
             refresh({data}){
                 this.dataSet = data;
-                this.replies = data.data;
+                this.items = data.data;
             }
         }
     }
