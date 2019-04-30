@@ -44,8 +44,6 @@ abstract class Filters
             if (method_exists($this, $filter)) {
                 $this->$filter($value);
             }
-
-
         }
 
         return $this->builder;

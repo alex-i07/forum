@@ -34,6 +34,9 @@ class ParticipateInForumTest extends TestCase
      */
     public function test_an_authenticated_user_may_participate_in_forum_threads()
     {
+        /**
+         * Error: Class 'Doctrine\DBAL\Driver\PDOSqlite\Driver' not found
+         */
         //Given we have an authenticated user
         $this->be($user = factory('App\User')->create());
 
@@ -48,7 +51,10 @@ class ParticipateInForumTest extends TestCase
 
         //Replies
 
-        $this->get($thread->path())->assertSee($reply->body);
+        $this->assertDatabaseHas('replies', ['body' => $reply->body]);
+
+        $this->assertEquals(1, $thread->fresh()->replies_count);
+
     }
 
     /**
@@ -90,11 +96,15 @@ class ParticipateInForumTest extends TestCase
     {
         $this->signIn();
 
-        $reply = create('App\Reply', ['user_id' => auth()->user()->id]);
+        $thread = create('App\Thread', ['user_id' => auth()->user()->id]);
+
+        $reply = create('App\Reply', ['user_id' => auth()->user()->id, 'thread_id' => $thread->id]);
 
         $this->delete("replies/{$reply->id}")->assertStatus(302);
 
         $this->assertDatabaseMissing('replies', ['id' => $reply->id]);
+
+        $this->assertEquals(0, $reply->thread->fresh()->replies_count);
     }
 
     /**
