@@ -45,7 +45,7 @@ class ThreadTest extends TestCase
     public function a_thread_can_add_a_reply()
     {
         $array = ([
-            'body' => 'Foobar',
+            'body'    => 'Foobar',
             'user_id' => 1,
         ]);
 
@@ -76,5 +76,42 @@ class ThreadTest extends TestCase
         $thread = create('App\Thread');
 
         $thread = $this->assertEquals("/threads/{$thread->channel->slug}/{$thread->id}", $thread->path());
+    }
+
+    /**
+     * @test
+     */
+
+    public function a_thread_can_be_subscribed_to()
+    {
+        $thread = create('App\Thread');
+
+        //user with Id of 1 subscribes to a thread
+
+        $userId = 1;
+
+        $thread->subscribe($userId);
+
+        // Then we should be able to fetch all threads the user has subscribed to
+
+        $this->assertEquals(
+            1,
+            $thread->subscriptions()->where('user_id', $userId)->count()
+        );
+    }
+
+    /**
+     * @test
+     */
+
+    public function a_thread_can_be_unsubscribed_from()
+    {
+        $thread = create('App\Thread');
+
+        $userId = 1;
+
+        $thread->unSubscribe($userId);
+
+        $this->assertEquals(0, $thread->subscriptions()->count());
     }
 }
