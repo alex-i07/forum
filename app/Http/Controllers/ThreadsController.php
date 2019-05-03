@@ -105,6 +105,7 @@ class ThreadsController extends Controller
      */
     public function show($channelId, Thread $thread)
     {
+//        return $thread;
         return view('threads.show', [
             'thread'  => $thread
         ]);

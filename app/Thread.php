@@ -12,6 +12,8 @@ class Thread extends Model
 
     protected $fillable = ['user_id', 'channel_id', 'title', 'body'];
 
+    protected $appends = ['isSubscribedTo'];
+
     protected static function boot()
     {
         parent::boot();
@@ -117,6 +119,20 @@ class Thread extends Model
     public function unSubscribe($userId = null)
     {
         $this->subscriptions()->where('user_id', $userId ?: auth()->user()->id)->delete();
+    }
+
+    /**
+     * Defines if given thread is subscribed to authenticated user.
+     *
+     * @return bool
+     */
+    public function getIsSubscribedToAttribute()
+    {
+        //trying to get property of non-object if there are no subscriptions
+        if ($this->subscriptions()->exists()){
+            return $this->subscriptions()->where('user_id', auth()->user()->id)->exists();
+        }
+        return false;
     }
 
 }

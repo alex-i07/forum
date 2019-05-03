@@ -45,7 +45,7 @@
     </style>
 
     <script>
-        window.signedIn = {{auth()->check()}};
+        window.signedIn = {{auth()->check()?:0}};
         window.user_id = {{auth()->user() ? auth()->user()->id : 0}};
     </script>
 

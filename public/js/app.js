@@ -31182,7 +31182,7 @@ module.exports = Cancel;
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(144);
-module.exports = __webpack_require__(202);
+module.exports = __webpack_require__(205);
 
 
 /***/ }),
@@ -31212,7 +31212,7 @@ Vue.component('flash-component', __webpack_require__(171));
 
 Vue.component('thread-view-component', __webpack_require__(177));
 
-Vue.component('paginator-component', __webpack_require__(197));
+Vue.component('paginator-component', __webpack_require__(200));
 
 // Vue.component('replies-component', require('./components/RepliesComponent.vue'));
 
@@ -66200,11 +66200,16 @@ module.exports = Component.exports
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__RepliesComponent_vue__ = __webpack_require__(179);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__RepliesComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__RepliesComponent_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SubscribeButtonComponent_vue__ = __webpack_require__(197);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__SubscribeButtonComponent_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__SubscribeButtonComponent_vue__);
+
+
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    components: { RepliesComponent: __WEBPACK_IMPORTED_MODULE_0__RepliesComponent_vue___default.a },
+    components: { RepliesComponent: __WEBPACK_IMPORTED_MODULE_0__RepliesComponent_vue___default.a, SubscribeButtonComponent: __WEBPACK_IMPORTED_MODULE_1__SubscribeButtonComponent_vue___default.a },
 
     props: ['initialRepliesCount'],
 
@@ -67409,15 +67414,131 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(198)
+/* template */
+var __vue_template__ = __webpack_require__(199)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/js/components/SubscribeButtonComponent.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-a5341ba8", Component.options)
+  } else {
+    hotAPI.reload("data-v-a5341ba8", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 198 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+    props: ['active'],
+
+    data: function data() {
+        return {
+            isSubscribedTo: this.active
+        };
+    },
+
+
+    computed: {
+        classes: function classes() {
+            return ['btn', this.isSubscribedTo ? 'btn-primary' : 'btn-outline-info'];
+        }
+    },
+
+    methods: {
+        subscribe: function subscribe() {
+            var _this = this;
+
+            axios[this.isSubscribedTo ? 'delete' : 'post'](window.location.pathname + '/subscriptions').then(function (response) {
+                flash('Subscribed!');
+                _this.isSubscribedTo = !_this.isSubscribedTo;
+            }).catch(function (error) {
+                flash('Unsubscribed!');
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 199 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "button",
+    { staticClass: "btn", class: _vm.classes, on: { click: _vm.subscribe } },
+    [_vm._v("Subscribe")]
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-a5341ba8", module.exports)
+  }
+}
+
+/***/ }),
+/* 200 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
 function injectStyle (ssrContext) {
   if (disposed) return
-  __webpack_require__(198)
+  __webpack_require__(201)
 }
 var normalizeComponent = __webpack_require__(2)
 /* script */
-var __vue_script__ = __webpack_require__(200)
+var __vue_script__ = __webpack_require__(203)
 /* template */
-var __vue_template__ = __webpack_require__(201)
+var __vue_template__ = __webpack_require__(204)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -67456,13 +67577,13 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 198 */
+/* 201 */
 /***/ (function(module, exports, __webpack_require__) {
 
 // style-loader: Adds some css to the DOM by adding a <style> tag
 
 // load the styles
-var content = __webpack_require__(199);
+var content = __webpack_require__(202);
 if(typeof content === 'string') content = [[module.i, content, '']];
 if(content.locals) module.exports = content.locals;
 // add the styles to the DOM
@@ -67482,7 +67603,7 @@ if(false) {
 }
 
 /***/ }),
-/* 199 */
+/* 202 */
 /***/ (function(module, exports, __webpack_require__) {
 
 exports = module.exports = __webpack_require__(4)(false);
@@ -67496,7 +67617,7 @@ exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\
 
 
 /***/ }),
-/* 200 */
+/* 203 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -67561,7 +67682,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 201 */
+/* 204 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -67627,7 +67748,7 @@ if (false) {
 }
 
 /***/ }),
-/* 202 */
+/* 205 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

@@ -41,10 +41,17 @@
                         </div>
 
                         <div class="card-body">
-                            This thread was publiched {{$thread->created_at->diffForHumans()}} by <a
-                                    href="#">{{$thread->creator->name}}</a> and currently
-                            has <span v-text="repliesCount"></span> {{str_plural('comment', $thread->replies_count)}}.
+                            <p>
+                                This thread was publiched {{$thread->created_at->diffForHumans()}} by <a
+                                        href="#">{{$thread->creator->name}}</a> and currently
+                                has <span v-text="repliesCount"></span> {{str_plural('comment', $thread->replies_count)}}.
+                            </p>
+
+                            <p>
+                                <subscribe-button-component :active="{{json_encode($thread->is_subscribed_to)}}"></subscribe-button-component>
+                            </p>
                         </div>
+
                     </div>
 
                 </div>
