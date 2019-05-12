@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\ThreadWasUpdated;
 use function foo\func;
 use Illuminate\Database\Eloquent\Model;
 
@@ -76,7 +77,23 @@ class Thread extends Model
      */
     public function addReply($reply)
     {
-        return $this->replies()->create($reply);
+        $reply = $this->replies()->create($reply);
+
+        //Implement notifications for all subscribers
+
+        $this->subscriptions
+            ->filter(function($sub) use($reply){
+            return $sub->user_id != $reply->user_id;
+        })
+            ->each->notify($reply);
+
+//        foreach ($this->subscriptions as $subscription) {
+//            if ($subscription->user_id != $reply->user_id) {
+//                $subscription->user->notify(new ThreadWasUpdated($this, $reply));
+//            }
+//        }
+
+        return $reply;
     }
 
     /**
@@ -100,15 +117,18 @@ class Thread extends Model
     }
 
     /**
-     * A thread can be subscrubed to a user.
+     * A thread can be subscribed to a user.
      *
      * @param null $userId
+     * @return $this
      */
     public function subscribe($userId = null)
     {
         $this->subscriptions()->create([
             'user_id' => $userId ?: auth()->user()->id
         ]);
+
+        return $this;
     }
 
     /**
@@ -129,7 +149,7 @@ class Thread extends Model
     public function getIsSubscribedToAttribute()
     {
         //trying to get property of non-object if there are no subscriptions
-        if ($this->subscriptions()->exists()){
+        if ($this->subscriptions()->exists()) {
             return $this->subscriptions()->where('user_id', auth()->user()->id)->exists();
         }
         return false;
