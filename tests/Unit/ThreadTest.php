@@ -2,9 +2,10 @@
 
 namespace Tests\Unit;
 
-use App\Reply;
 use App\Thread;
 use Tests\TestCase;
+use App\Notifications\ThreadWasUpdated;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -49,12 +50,26 @@ class ThreadTest extends TestCase
             'user_id' => 1,
         ]);
 
-//        dd($array);
-
         $this->thread->addReply($array);
 
         $this->assertCount(1, $this->thread->replies);
     }
+
+//    public function a_thread_notifies_all_registered_subscribers_when_reply_is_added()
+//    {
+//        //Error: Call to undefined method Illuminate\Support\Testing\Fakes\NotificationFake::assertSendTo()
+//
+//        Notification::fake();
+//
+//        $this->signIn();
+//
+//        $this->thread->subscribe()->addReply([
+//            'body' => 'Foobar',
+//            'user_id' => 999
+//        ]);
+//
+//        Notification::assertSendTo(auth()->user(), ThreadWasUpdated::class);
+//    }
 
     /**
      * @test
