@@ -82,10 +82,9 @@ class Thread extends Model
         //Implement notifications for all subscribers
 
         $this->subscriptions
-            ->filter(function($sub) use($reply){
-            return $sub->user_id != $reply->user_id;
-        })
-            ->each->notify($reply);
+            ->where('user_id', '!=', $reply->user_id)
+            ->each
+            ->notify($reply);
 
 //        foreach ($this->subscriptions as $subscription) {
 //            if ($subscription->user_id != $reply->user_id) {

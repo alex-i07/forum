@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
-use Illuminate\Http\Request;
+use App\Channel;
 
 class UserNotificationsController extends Controller
 {
@@ -13,10 +13,9 @@ class UserNotificationsController extends Controller
         $this->middleware('auth');
     }
 
-    public function index()
+    public function index(Channel $channel, User $user)
     {
-        dd(auth()->user()->unreadNotification);
-        return auth()->user()->unreadNotification;
+        return auth()->user()->notifications()->whereNull('read_at')->get();
     }
 
     public function destroy(User $user, $notification)
