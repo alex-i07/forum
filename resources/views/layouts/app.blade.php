@@ -47,6 +47,7 @@
     <script>
         window.signedIn = {{auth()->check()?:0}};
         window.user_id = {{auth()->user() ? auth()->user()->id : 0}};
+        window.user_name = "{{auth()->user() ? auth()->user()->name : ''}}";
     </script>
 
 </head>

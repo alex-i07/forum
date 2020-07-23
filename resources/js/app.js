@@ -23,6 +23,8 @@ Vue.component('thread-view-component', require('./components/ThreadViewComponent
 
 Vue.component('paginator-component', require('./components/PaginatorComponent.vue'));
 
+Vue.component('user-notifications', require('./components/UserNotifications.vue'));
+
 // Vue.component('replies-component', require('./components/RepliesComponent.vue'));
 
 // Vue.component('reply-component', require('./components/ReplyComponent.vue'));
