@@ -153,4 +153,14 @@ class Thread extends Model
         return false;
     }
 
+    /**
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function hasUpdateFor(User $user)
+    {
+        return true; //temporary
+    }
+
 }
