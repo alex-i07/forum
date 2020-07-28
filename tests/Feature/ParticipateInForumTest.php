@@ -134,4 +134,22 @@ class ParticipateInForumTest extends TestCase
 
         $this->signIn()->patch("replies/{$reply->id}")->assertStatus(403);
     }
+
+    /**
+     * @test
+     */
+    public function replies_that_contain_span_may_not_be_created()
+    {
+        $this->withoutExceptionHandling();
+
+        $this->signIn();
+
+        $thread = create('App\Thread');
+
+        $reply = make('App\Reply', ['body' => 'This is spam!']);
+
+        $this->expectException(\Exception::class);
+
+        $this->post($thread->path() . '/replies', $reply->toArray());
+    }
 }

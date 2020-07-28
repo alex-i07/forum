@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Reply;
+use App\Services\SpamService;
 use App\Thread;
 use Illuminate\Http\Request;
 use App\Filters\ThreadFilters;
@@ -30,13 +31,17 @@ class RepliesController extends Controller
     /**
      * @param $channel_id
      * @param Thread $thread
-     * @return \Illuminate\Http\RedirectResponse
+     * @param SpamService $spamService
+     *
+     * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function store($channel_id, Thread $thread)
+    public function store($channel_id, Thread $thread, SpamService $spamService)
     {
 //        Auth::attempt(['email' => 'alena@renner.org', 'password' => 'secret']);
 
         $this->validate(request(), ['body' => 'required']);
+
+        $spamService->detect(request('body'));
 
         $reply = $thread->addReply([
             'body'    => request('body'),
