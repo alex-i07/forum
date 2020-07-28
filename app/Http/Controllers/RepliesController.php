@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Reply;
-use App\Services\SpamService;
 use App\Thread;
-use Illuminate\Http\Request;
-use App\Filters\ThreadFilters;
+use App\Inspections\SpamService;
 
 class RepliesController extends Controller
 {

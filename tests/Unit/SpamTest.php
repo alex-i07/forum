@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use App\Services\SpamService;
+use App\Inspections\SpamService;
 
 class SpamTest extends TestCase
 {
@@ -17,6 +17,6 @@ class SpamTest extends TestCase
         $this->assertFalse($spam->detect('Innocent reply here!'));
 
         $this->expectException(\Exception::class);
-        $spam->detect('This is spam!');
+        $spam->detect('This is spaM!');
     }
 }
