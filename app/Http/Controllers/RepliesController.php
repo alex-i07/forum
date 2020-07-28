@@ -51,23 +51,32 @@ class RepliesController extends Controller
         }
 
         return redirect()->back();
-//        return redirect($thread->path());
     }
 
-    public function update(Reply $reply)
+    /**
+     * @param Reply $reply
+     * @param SpamService $spamService
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function update(Reply $reply, SpamService $spamService)
     {
         $this->authorize('update', $reply);
+
+        $spamService->detect(request('body'));
 
         $reply->update(['body' => request('body')]);
 
         return response([], 201);
     }
 
+    /**
+     * @param Reply $reply
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     */
     public function destroy(Reply $reply)
     {
-//        dd($reply->user_id, auth()->user()->id);
-//        if ($reply->user_id != auth()->user()->id)  return response([], 403);
-
         $this->authorize('update', $reply);
 
         $reply->delete();

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Inspections\SpamService;
 use App\Thread;
 use App\Channel;
 use App\Filters\ThreadFilters;
@@ -72,18 +73,20 @@ class ThreadsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @param Request $request
+     * @param SpamService $spamService
      *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request)
+    public function store(Request $request, SpamService $spamService)
     {
         $this->validate($request, [
             'title'      => 'required',
             'body'       => 'required',
             'channel_id' => 'required|exists:channels,id',
         ]);
+
+        $spamService->detect(request('body'));
 
         $thread = Thread::create([
             'user_id'    => auth()->user()->id,
@@ -137,22 +140,14 @@ class ThreadsController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
-     *
      * @param Channel $channel
      * @param Thread $thread
+     *
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function destroy(Channel $channel, Thread $thread)
     {
         $this->authorize('update', $thread);
-
-//        $thread->replies()->delete();  //same is done in model deleting event
-
-//        if($thread->user_id != auth()->user()->id){
-//            abort(403, 'You don\'t have permisstion to do that');
-//
-//            return redirect('/login');
-//        }
 
         $thread->delete();
 
