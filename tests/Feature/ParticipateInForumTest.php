@@ -138,7 +138,7 @@ class ParticipateInForumTest extends TestCase
     /**
      * @test
      */
-    public function replies_that_contain_span_may_not_be_created()
+    public function replies_that_contain_spam_may_not_be_created()
     {
         $this->withoutExceptionHandling();
 

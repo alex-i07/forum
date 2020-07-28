@@ -43,7 +43,8 @@
             },
 
             page(){
-                this.broadcast().updateUrl();
+                this.broadcast();
+                this.updateUrl();
             }
         },
 

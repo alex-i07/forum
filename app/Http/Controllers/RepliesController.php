@@ -35,22 +35,25 @@ class RepliesController extends Controller
      */
     public function store($channel_id, Thread $thread, SpamService $spamService)
     {
-//        Auth::attempt(['email' => 'alena@renner.org', 'password' => 'secret']);
-
         $this->validate(request(), ['body' => 'required']);
 
-        $spamService->detect(request('body'));
+        try {
+            $spamService->detect(request('body'));
 
-        $reply = $thread->addReply([
-            'body'    => request('body'),
-            'user_id' => auth()->user()->id
-        ]);
+            $reply = $thread->addReply([
+                'body' => request('body'),
+                'user_id' => auth()->user()->id
+            ]);
 
-        if (request()->expectsJson()) {
-            return $reply->load('owner');
+            if (request()->expectsJson()) {
+                return $reply->load('owner');
+            }
+
+            return redirect()->back();
+
+        } catch (\Exception $e) {
+            return response()->json('Spam has been detected!', 422);
         }
-
-        return redirect()->back();
     }
 
     /**
@@ -63,11 +66,16 @@ class RepliesController extends Controller
     {
         $this->authorize('update', $reply);
 
-        $spamService->detect(request('body'));
+        try {
+            $spamService->detect(request('body'));
 
-        $reply->update(['body' => request('body')]);
+            $reply->update(['body' => request('body')]);
 
-        return response([], 201);
+            return response([], 201);
+
+        } catch (\Exception $e) {
+            return response()->json('Spam has been detected!', 422);
+        }
     }
 
     /**

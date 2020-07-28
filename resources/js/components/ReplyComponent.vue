@@ -7,7 +7,7 @@
                     said <span v-text="ago"></span>...
                 </h5>
 
-                <favorite-component v-if="signedIn" :reply = "reply"></favorite-component>
+                <favorite-component v-if="signedIn" :reply="reply"></favorite-component>
 
             </div>
         </div>
@@ -52,7 +52,7 @@
                 body: this.reply.body
             }
         },
-        computed:{
+        computed: {
             signedIn() {
                 return window.signedIn;
             },
@@ -67,7 +67,11 @@
             update(){
                 axios.patch('/replies/' + this.reply.id, {
                     body: this.body
+                })
+                .catch(error => {
+                    flash(error.response.data, 'danger');
                 });
+
                 this.editing = false;
 
                 flash('Updated!');
