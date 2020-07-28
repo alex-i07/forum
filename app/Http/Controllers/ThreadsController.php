@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use App\Thread;
 use App\Channel;
 use App\Filters\ThreadFilters;
@@ -105,7 +104,10 @@ class ThreadsController extends Controller
      */
     public function show($channelId, Thread $thread)
     {
-//        return $thread;
+        if (auth()->id()) {
+            auth()->user()->read($thread);
+        }
+
         return view('threads.show', [
             'thread'  => $thread
         ]);

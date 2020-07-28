@@ -5,6 +5,7 @@ namespace App;
 use App\Events\ThreadHasNewReply;
 use Illuminate\Database\Eloquent\Model;
 use App\Notifications\ThreadWasUpdated;
+use Illuminate\Support\Facades\Cache;
 
 class Thread extends Model
 {
@@ -147,7 +148,7 @@ class Thread extends Model
     public function getIsSubscribedToAttribute()
     {
         //trying to get property of non-object if there are no subscriptions
-        if ($this->subscriptions()->exists()) {
+        if ($this->subscriptions()->exists() && auth()->id()) {
             return $this->subscriptions()->where('user_id', auth()->user()->id)->exists();
         }
         return false;
@@ -158,9 +159,14 @@ class Thread extends Model
      *
      * @return bool
      */
-    public function hasUpdateFor(User $user)
+    public function hasUpdatesFor(?User $user)
     {
-        return true; //temporary
-    }
+        if ($user) {
+            $cacheKey = $user->visitedThreadCacheKey($this);
 
+            return $this->updated_at > Cache::get($cacheKey);
+        }
+
+        return false;
+    }
 }
