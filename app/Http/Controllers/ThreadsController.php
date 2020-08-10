@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Inspections\SpamService;
 use App\Thread;
 use App\Channel;
 use App\Filters\ThreadFilters;
@@ -74,19 +73,18 @@ class ThreadsController extends Controller
 
     /**
      * @param Request $request
-     * @param SpamService $spamService
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
      */
-    public function store(Request $request, SpamService $spamService)
+    public function store(Request $request)
     {
         $this->validate($request, [
-            'title'      => 'required',
-            'body'       => 'required',
+            'title'      => 'required|spamfree',
+            'body'       => 'required|spamfree',
             'channel_id' => 'required|exists:channels,id',
         ]);
 
-        $spamService->detect(request('body'));
+//        $spamService->detect(request('body'));
 
         $thread = Thread::create([
             'user_id'    => auth()->user()->id,

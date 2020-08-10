@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Reply;
 use App\Thread;
-use App\Inspections\SpamService;
 
 class RepliesController extends Controller
 {
@@ -29,17 +28,14 @@ class RepliesController extends Controller
     /**
      * @param $channel_id
      * @param Thread $thread
-     * @param SpamService $spamService
      *
      * @return $this|\Illuminate\Http\RedirectResponse
      */
-    public function store($channel_id, Thread $thread, SpamService $spamService)
+    public function store($channel_id, Thread $thread)
     {
-        $this->validate(request(), ['body' => 'required']);
+        $this->validate(request(), ['body' => 'required|spamfree']);
 
         try {
-            $spamService->detect(request('body'));
-
             $reply = $thread->addReply([
                 'body' => request('body'),
                 'user_id' => auth()->user()->id
@@ -58,16 +54,17 @@ class RepliesController extends Controller
 
     /**
      * @param Reply $reply
-     * @param SpamService $spamService
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function update(Reply $reply, SpamService $spamService)
+    public function update(Reply $reply)
     {
         $this->authorize('update', $reply);
 
+        $this->validate(request(), ['body' => 'required|spamfree']);
+
         try {
-            $spamService->detect(request('body'));
+//            $spamService->detect(request('body'));
 
             $reply->update(['body' => request('body')]);
 

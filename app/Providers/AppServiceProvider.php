@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use App\Channel;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\Validator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,13 +21,15 @@ class AppServiceProvider extends ServiceProvider
 
 //        or
 
-        \View::composer(['layouts.app', 'threads.create'], function($view){
+        View::composer(['layouts.app', 'threads.create'], function($view){
 //            $channels = Channel::all();
             $channels = Cache::rememberForever('channels', function (){
                 return Channel::all();
             });
             $view->with('channels', $channels);
         });
+
+        Validator::extend('spamfree', 'App\Rules\SpamFree@passes');
     }
 
     /**

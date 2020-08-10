@@ -140,16 +140,35 @@ class ParticipateInForumTest extends TestCase
      */
     public function replies_that_contain_spam_may_not_be_created()
     {
-        $this->withoutExceptionHandling();
+//        $this->withoutExceptionHandling();
 
         $this->signIn();
 
         $thread = create('App\Thread');
 
-        $reply = make('App\Reply', ['body' => 'This is spam!']);
+        $reply = make('App\Reply', ['body' => 'This is spammmmmmmmmmmm!']);
 
-        $this->expectException(\Exception::class);
+//        $this->expectException(\Exception::class);
 
-        $this->post($thread->path() . '/replies', $reply->toArray());
+        $this->post($thread->path() . '/replies', $reply->toArray())
+        ->assertStatus(422);
+    }
+
+    /**
+     * @test
+     */
+    public function a_user_can_leave_reply_only_once_per_minute()
+    {
+        $this->signIn();
+
+        $thread = create('App\Thread');
+
+        $reply = make('App\Reply', ['body' => 'This is reply!']);
+
+        $this->post($thread->path() . '/replies', $reply->toArray())
+            ->assertStatus(200);
+        
+        $this->post($thread->path() . '/replies', $reply->toArray())
+            ->assertStatus(422);
     }
 }
