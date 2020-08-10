@@ -159,6 +159,8 @@ class ParticipateInForumTest extends TestCase
      */
     public function a_user_can_leave_reply_only_once_per_minute()
     {
+//        $this->withoutExceptionHandling();
+
         $this->signIn();
 
         $thread = create('App\Thread');
@@ -166,9 +168,11 @@ class ParticipateInForumTest extends TestCase
         $reply = make('App\Reply', ['body' => 'This is reply!']);
 
         $this->post($thread->path() . '/replies', $reply->toArray())
-            ->assertStatus(200);
-        
+            ->assertStatus(200)
+        ;
+
         $this->post($thread->path() . '/replies', $reply->toArray())
-            ->assertStatus(422);
+            ->assertStatus(422)
+        ;
     }
 }

@@ -52,6 +52,22 @@ class User extends Authenticatable
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function replies()
+    {
+        return $this->hasMany(Reply::class);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function lastReply()
+    {
+        return $this->hasOne(Reply::class)->latest('id');
+    }
+
+    /**
      * @param Thread $thread
      *
      * @return string

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Reply;
 use App\Thread;
+use Illuminate\Support\Facades\Gate;
 
 class RepliesController extends Controller
 {
@@ -33,19 +34,23 @@ class RepliesController extends Controller
      */
     public function store($channel_id, Thread $thread)
     {
-        $this->validate(request(), ['body' => 'required|spamfree']);
+        if (Gate::denies('create', new Reply())) {
+            return response()->json('Your are posting too frequently', 422);
+        }
 
         try {
+            $this->validate(request(), ['body' => 'required|spamfree']);
+
             $reply = $thread->addReply([
                 'body' => request('body'),
-                'user_id' => auth()->user()->id
+                'user_id' => auth()->id()
             ]);
 
             if (request()->expectsJson()) {
                 return $reply->load('owner');
             }
 
-            return redirect()->back();
+            return response()->json(['status' => 'Reply was stored!'], 200);
 
         } catch (\Exception $e) {
             return response()->json('Spam has been detected!', 422);
