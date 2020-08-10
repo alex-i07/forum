@@ -35,7 +35,7 @@ class RepliesController extends Controller
     public function store($channel_id, Thread $thread)
     {
         if (Gate::denies('create', new Reply())) {
-            return response()->json('Your are posting too frequently', 422);
+            return response()->json('Your are posting too frequently', 429);
         }
 
         try {
