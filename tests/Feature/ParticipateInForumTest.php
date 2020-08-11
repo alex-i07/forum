@@ -151,7 +151,7 @@ class ParticipateInForumTest extends TestCase
 //        $this->expectException(\Exception::class);
 
         $this->post($thread->path() . '/replies', $reply->toArray())
-        ->assertStatus(422);
+        ->assertStatus(302);
     }
 
     /**
@@ -172,7 +172,7 @@ class ParticipateInForumTest extends TestCase
         ;
 
         $this->post($thread->path() . '/replies', $reply->toArray())
-            ->assertStatus(429)
+            ->assertStatus(403)
         ;
     }
 }
