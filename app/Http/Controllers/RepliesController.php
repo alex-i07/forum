@@ -44,7 +44,7 @@ class RepliesController extends Controller
         ]);
 
         //Inspect the reply body for username mentions
-        preg_match_all('/\@([^\s\.]+)/', $reply->body, $matches);
+        preg_match_all('/@([\w\-]+)/', $reply->body, $matches);
 
         foreach ($matches[1] as $name) {
             if ($user = User::where('name', $name)->first()) {

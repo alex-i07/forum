@@ -39,4 +39,17 @@ class ReplyTest extends TestCase
 
         $this->assertFalse($reply->wasJustPublished());
     }
+
+    /**
+     * @test
+     */
+    public function it_wraps_mentioned_user_in_an_anchor_tag()
+    {
+        $reply = create(Reply::class, ['body' => 'Hello, @JaneDoe']);
+
+        $this->assertEquals(
+            'Hello, <a href="/profiles/JaneDoe">@JaneDoe</a>',
+            $reply->body
+        );
+    }
 }
