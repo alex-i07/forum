@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateFormRequest;
+use App\Notifications\YouWereMentioned;
 use App\Reply;
 use App\Thread;
+use App\User;
 use Illuminate\Support\Facades\Gate;
 
 class RepliesController extends Controller
@@ -30,6 +32,7 @@ class RepliesController extends Controller
     /**
      * @param $channel_id
      * @param Thread $thread
+     * @param CreateFormRequest $request
      *
      * @return $this|\Illuminate\Http\RedirectResponse
      */
@@ -39,6 +42,15 @@ class RepliesController extends Controller
             'body' => request('body'),
             'user_id' => auth()->id()
         ]);
+
+        //Inspect the reply body for username mentions
+        preg_match_all('/\@([^\s\.]+)/', $reply->body, $matches);
+
+        foreach ($matches[1] as $name) {
+            if ($user = User::where('name', $name)->first()) {
+                $user->notify(new YouWereMentioned($reply));
+            }
+        }
 
         if (request()->expectsJson()) {
             return $reply->load('owner');
