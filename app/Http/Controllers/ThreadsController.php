@@ -171,7 +171,7 @@ class ThreadsController extends Controller
 
 //        dd($threads->toSql());
 
-        $threads = $threads->get();
+        $threads = $threads->paginate(10);
 
         return $threads;
     }
