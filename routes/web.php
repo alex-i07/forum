@@ -53,3 +53,5 @@ Route::delete('profiles/{user}/notifications/{notification}', 'UserNotifications
 Route::post('threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionsController@store')->middleware('auth');
 
 Route::delete('threads/{channel}/{thread}/subscriptions', 'ThreadSubscriptionsController@destroy')->middleware('auth');
+
+Route::get('/api/users', 'Api\UsersController@index');

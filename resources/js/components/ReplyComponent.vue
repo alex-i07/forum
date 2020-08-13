@@ -21,7 +21,7 @@
                         <button type="button" @click="editing=false" class="btn btn-link btn-sm">Cancel</button>
                     </div>
                 </div>
-                <div v-else v-text="body">
+                <div v-else v-html="body">
                 </div>
             </div>
 
